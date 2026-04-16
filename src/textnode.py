@@ -5,10 +5,10 @@ class TextType(Enum):
     TEXT = "text"
     PLAIN = "plain"
     BOLD = "bold"
-    ITALIC = "_Italic text_"
-    CODE = "`Code text`"
+    ITALIC = "Italic"
+    CODE = "Code"
     LINK = "link"
-    IMAGE = "![alt text](url)"
+    IMAGE = "Image"
 
 class TextNode():
     def __init__(self, text, text_type, url = None):
