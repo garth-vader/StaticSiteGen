@@ -1,4 +1,4 @@
-from textnode import TextNode, TextType, text_node_to_html_node
+from textnode import TextNode, TextType
 import re
 
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
@@ -67,6 +67,7 @@ def extract_markdown_links(text):
     return re.findall(r"(?<!!)\[([^\[\]]*)\]\(([^\(\)]*)\)", text)
 
 def text_to_textnodes(text):
+
     old_node = [TextNode(text, TextType.TEXT)]
     new_nodes = split_nodes_delimiter(old_node, "**", TextType.BOLD)
     new_nodes = split_nodes_delimiter(new_nodes, "_", TextType.ITALIC)
@@ -75,3 +76,4 @@ def text_to_textnodes(text):
     new_nodes = split_nodes_link(new_nodes)
 
     return new_nodes
+
