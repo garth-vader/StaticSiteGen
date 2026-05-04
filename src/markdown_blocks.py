@@ -26,26 +26,25 @@ def markdown_to_html_node(markdown):
 
 def text_to_children(text):
     block_type = block_to_block_type(text)
-    if block_type == BlockType.CODE:
-        block_text = text.replace("```", "")
-        #remove the first white space
-        return  ParentNode("pre", [LeafNode("code", block_text[1:])])
 
     match block_type:
+        case BlockType.CODE:
+            block_text = text.replace("```", "")
+            #remove the first white space
+            return  ParentNode("pre", [LeafNode("code", block_text[1:])])
         case BlockType.QUOTE:
             tag = "blockquote"
             html_children = []
-
-            for line in text.split('\n'):
+            lines = []
+            for line in text.split("\n"):
                 line = line[1:]
                 if len(line) > 0 and line[0] == ' ':
                     line = line[1:]
-                text_nodes = text_to_textnodes(line)
-                if len(text_nodes) > 0:
-                    html_node = ParentNode('p', list(map(text_node_to_html_node, text_nodes)))
-                else:
-                    html_node = LeafNode("p", "") 
-                html_children.append(html_node)
+                lines.append(line)
+            sanitized_text = " ".join(lines) 
+            text_nodes = text_to_textnodes(sanitized_text)
+            for text_node in text_nodes:
+                html_children.append(text_node_to_html_node(text_node))
             return ParentNode(tag, html_children)
 
         case BlockType.UNORDERED_LIST:
