@@ -1,7 +1,8 @@
-from copystatic import copy_folder_to_public, delete_public
-
+from copystatic import copy_folder, delete_public
+from generate_page import generate_page
 def main():
     delete_public()
-    copy_folder_to_public("static/")
+    copy_folder("./static/", "./public/")
+    generate_page("./content/index.md", "./template.html", "./public/index.html")
 
 main()

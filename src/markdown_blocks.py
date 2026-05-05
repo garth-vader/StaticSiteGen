@@ -71,14 +71,7 @@ def text_to_children(text):
                 html_children.append(html_node)
             return ParentNode(tag, html_children) 
         case BlockType.HEADING:
-            count = 0
-            for i in range(6):
-                if text[i] != '#':
-                    break
-                count += 1
-            tag = f"h{count}"
-            html_children = list(map(text_node_to_html_node, text_to_textnodes(text[count+1:])))
-            return ParentNode(f"h{count}", html_children)
+            return text_to_heading_node(text)
         case BlockType.PARAGRAPH:
             tag = 'p'
             block_text = text.strip().replace("\n", " ")
@@ -88,6 +81,15 @@ def text_to_children(text):
         case _:
             raise ValueError("Blocktype enum doesn't exists")
         
+def text_to_heading_node(text):
+            count = 0
+            for i in range(6):
+                if text[i] != '#':
+                    break
+                count += 1
+            tag = f"h{count}"
+            html_children = list(map(text_node_to_html_node, text_to_textnodes(text[count+1:])))
+            return ParentNode(f"h{count}", html_children)
 
 def block_to_block_type(block):
     if re.match(r"(^#{1,6} )", block):
